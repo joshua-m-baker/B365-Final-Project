@@ -16,7 +16,7 @@ data.train <- subset(data.train,select = -c(id,ps_car_03_cat,ps_car_05_cat,ps_re
 
 training_classes = data.train$target
 data.train <- subset(data.train,select = -c(target))
-training_size = length(data.train)
+training_size = nrow(data.train)
 
 total_data = rbind(data.train, data.test)
 
@@ -25,7 +25,21 @@ for(i in 1:ncol(total_data)){
   total_data[is.na(total_data[,i]), i] <- col_means[i]
 }
 
-summary(total_data)
+#summary(total_data)
 # PCA Stuff
 pca <- prcomp(total_data)
-summary(pca)
+#summary(pca)
+
+new_data = pca$x[,1:5]
+
+training = as.data.frame(new_data[1:training_size,])
+test = new_data[(training_size+1):nrow(new_data),]
+d2 = cbind(training, training_classes)
+library('e1071')
+model = naiveBayes(training_classes~.,data=training)
+pred = predict(model, test,"raw")
+pred
+pred[,2]
+
+#model = train(training,training_classes,'nb',trControl=trainControl(method='cv',number=10))
+
