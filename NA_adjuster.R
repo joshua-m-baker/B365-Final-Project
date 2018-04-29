@@ -19,7 +19,6 @@ test_ids = data.test$id
 data.test <- subset(data.test,select = -c(id))
 data.train <- subset(data.train,select = -c(id))
 
-
 training_classes = data.train$target
 data.train <- subset(data.train,select = -c(target))
 training_size = nrow(data.train)
@@ -60,6 +59,7 @@ pred2[,2]
 install.packages("xgboost")
 library('xgboost')
 head(training)
+
 bstDense <- xgboost(data = as.matrix(training), label = training_classes, missing = NA, max_depth = 10, eta = 1, nthread = 2, nrounds = 5, objective = "binary:logistic")
 prediction = predict(bstDense, test)
 prediction
