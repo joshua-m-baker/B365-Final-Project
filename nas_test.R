@@ -1,10 +1,10 @@
 library("ggplot2")
 options(scipen=100)
-train <- read.csv("C:/Users/Greg/B365-Final-Project/train.csv", header = TRUE)
-str(train)
-ncol(train)
-t = train
-claim = as.numeric(table(t$target)[2])
+test <- read.csv("C:/Users/Greg/B365-Final-Project/test.csv", header = TRUE)
+str(test)
+ncol(test)
+t = test
+#claim = as.numeric(table(t$target)[2])
 t[t<0] = -1
 # There are 59 variables
 # There two data types integer and numberic, with integer values being the prodominate type. 49 to 10
@@ -14,31 +14,31 @@ t[t<0] = -1
 missing = c()
 par(mfrow=c(3,2))
 # iterate through all features
-for(f in colnames(train)){
-  # Find number of missing entries
-  missing_len = length(train[train[,f] <0,f])
-  
-  # If there are missing entries find additional info
-  if(missing_len > 0){
-    
-    # Append to missing vector
-    missing = append(missing, f)
-    
-    # Calculate missing percentage vs all rows
-    missing_perc = missing_len / nrow(t) * 100
-    # Calculate the precentage of values in the feature that are both missing and have a target id of 1
-    target_perc = nrow(subset(t, t[f]<0 & t['target']==1))/length(t[t[,f] <0,f]) *100
-    target_perc2 = nrow(subset(t, t[f]<0 & t['target']==1))/claim *100 
-    print(c(f, missing_len, missing_perc, target_perc2))
-    print(class(t[,f]))   # Prints the datatype of feature
-    
-    # plot the histogram of entries and convert to probabilties instead of frequencies
-    h <- hist(t[,f], plot=FALSE)
-    h$counts=h$counts/sum(h$counts)
-    plot(h, main=f, xlab= "Value",ylab="Probability")
-    
-  }
-}
+# for(f in colnames(train)){
+#   # Find number of missing entries
+#   missing_len = length(train[train[,f] <0,f])
+#   
+#   # If there are missing entries find additional info
+#   if(missing_len > 0){
+#     
+#     # Append to missing vector
+#     missing = append(missing, f)
+#     
+#     # Calculate missing percentage vs all rows
+#     missing_perc = missing_len / nrow(t) * 100
+#     # Calculate the precentage of values in the feature that are both missing and have a target id of 1
+#     target_perc = nrow(subset(t, t[f]<0 & t['target']==1))/length(t[t[,f] <0,f]) *100
+#     target_perc2 = nrow(subset(t, t[f]<0 & t['target']==1))/claim *100 
+#     print(c(f, missing_len, missing_perc, target_perc2))
+#     print(class(t[,f]))   # Prints the datatype of feature
+#     
+#     # plot the histogram of entries and convert to probabilties instead of frequencies
+#     h <- hist(t[,f], plot=FALSE)
+#     h$counts=h$counts/sum(h$counts)
+#     plot(h, main=f, xlab= "Value",ylab="Probability")
+#     
+#   }
+# }
 
 # There are 13 features with missing entries
 
@@ -106,7 +106,7 @@ randomVariable = function(feature){
             labs(x = "Value", y = "Probabilty", title="Probability Distribution of Train before"))
     print(ggplot() + aes(as.vector(new_vals)) + geom_histogram(aes(y = (..count..)/sum(..count..)),binwidth=.5, colour="black", fill="white")+
             labs(x = "Value", y = "Probabilty", title="New Values"))
-
+    
     print(ggplot(t, aes(x= t[, feature])) + geom_histogram(aes(y = (..count..)/sum(..count..)),binwidth=.5, colour="black", fill="white")+
             labs(x = "Value", y = "Probabilty", title="Train with replaced values"))
   }
@@ -145,8 +145,8 @@ contRandVar = function(feature){
   # Visual inspection of the test to the actual
   print(c(mean(test),sd(test), class(test)))
   hist(actual, main="Actual",
-  prob = TRUE, # show densities instead of frequencies
-  xlab = "Value")
+       prob = TRUE, # show densities instead of frequencies
+       xlab = "Value")
   lines(density(test), # density plot
         lwd = 2, # thickness of line
         col = "chocolate3")
@@ -204,5 +204,5 @@ for(feature in c("ps_car_11","ps_car_12","ps_car_02_cat")){
 }
 
 summary(t)
-write.table(t, "train_p.csv", sep= ",")
+write.table(t, "test_p.csv", sep= ",")
 
