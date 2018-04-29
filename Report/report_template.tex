@@ -138,7 +138,9 @@ After observing the summaries of each variable in our data sets, it was clear th
 After the columns with mostly missing were removed, we replaced missing values with the mean of it's variable using the R package ``mice''.
 \subsection{Exploratory Data Analysis}
 
-Add subsections if needed.
+To reduce the complexity of future analysis techniques, we used the prcomp function from base R to perform PCA dimensionality reduction on our data. After the transformation, the first 16 principle components represented over 99 percent of the the data's variance. Using this as a reasonable cutoff, we proceeded forward using only these first 16 principle components.
+
+Note: To perform this transformation correctly, the test and train data must be transformed together and split after the dimensions have been reduced.
 \bigskip
 \bigskip
 %----------------------------------------------------------------------------------------
@@ -148,7 +150,7 @@ Add subsections if needed.
 
 \section{Algorithm and Methodology}
 
-Briefly explain the algorithms in this section, i.e., linear regressions. You can add more subsections if needed, i.e., regression trees etc.
+Once the data was processed, we used a NaiveBayes algorithm (from base R) to form our model.
 
 
 \bigskip
@@ -157,7 +159,7 @@ Briefly explain the algorithms in this section, i.e., linear regressions. You ca
  % Experiments and Results
 %----------------------------------------------------------------------------------------
 \section{Experiments and Results}
-
+Upon completing the first predictions against the autograding tool on Kaggle, different sizes of highest variance principle components were tested to see the effect on overall GINI score. A jump from 0.125 to 0.20 was achieved by including the first 16 principle components versus originally using just 5 (99 versus 95 percent of total variance represented in each sample, respectively). 
 
 \bigskip
 \bigskip
