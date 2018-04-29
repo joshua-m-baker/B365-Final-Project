@@ -150,7 +150,9 @@ Note: To perform this transformation correctly, the test and train data must be 
 
 \section{Algorithm and Methodology}
 
-Once the data was processed, we used a NaiveBayes algorithm (from base R) to form our model.
+Once the data was processed, we used the Naive Bayes algorithm to form our model. We tested it with both the implementation from the e1071 package and the caret package. The caret package implementation ended up being more powerful since it allowed for easy cross validation. We used 10 folds, trained on our pca- reduced data set. 
+
+We wanted to test a second classifier, so we chose XGBoost, since it had been used successfully by a number of people previously. Despite trying a number of different tree depths and iteration limits, we were unable to have it perform better than the Naive Bayes did. 
 
 
 \bigskip
@@ -159,7 +161,10 @@ Once the data was processed, we used a NaiveBayes algorithm (from base R) to for
  % Experiments and Results
 %----------------------------------------------------------------------------------------
 \section{Experiments and Results}
-Upon completing the first predictions against the autograding tool on Kaggle, different sizes of highest variance principle components were tested to see the effect on overall GINI score. A jump from 0.125 to 0.20 was achieved by including the first 16 principle components versus originally using just 5 (99 versus 95 percent of total variance represented in each sample, respectively). 
+Since we had access to multiple submissions on Kaggle, we were able to use their fitness measurements to test our predictions. When we did PCA, we originally kept 95\% of the variance, and used that to run Naive Bayes. When we submitted this, we only got a GINI score of .125, but when we increased the total variance to 99\%, the score jumped up to .20566.  
+
+
+%Upon completing the first predictions against the autograding tool on Kaggle, different sizes of highest variance principle components were tested to see the effect on overall GINI score. A jump from 0.125 to 0.20 was achieved by including the first 16 principle components versus originally using just 5 (99 versus 95 percent of total variance represented in each sample, respectively). %
 
 \bigskip
 \bigskip

@@ -37,10 +37,11 @@ for(i in 1:ncol(total_data)){
 
 #summary(total_data)
 # PCA Stuff
-pca <- prcomp(total_data, scale. = TRUE)
-#summary(pca)
+pca <- prcomp(total_data, scale.=TRUE)
+summary(pca)
 
-new_data = pca$x[,1:16]
+#new_data = pca$x[,1:16]
+new_data=pca$x
 
 training = as.data.frame(new_data[1:training_size,])
 test = new_data[(training_size+1):nrow(new_data),]
@@ -52,11 +53,20 @@ pred
 pred[,2]
 
 m = train(training,as.factor(training_classes),'nb',trControl=trainControl(method='cv',number=10))
-p = predict(m$finalModel,test)
-pred2 = p$posterior
+p1 = predict(m$finalModel,test)
+pred2 = p1$posterior
 pred2[,2]
-pred[,2]-pred2[,2]
 
-submission = cbind(id = test_ids, target = pred[,2])
+install.packages("xgboost")
+library('xgboost')
+head(training)
+bstDense <- xgboost(data = as.matrix(training), label = training_classes, missing = NA, max_depth = 10, eta = 1, nthread = 2, nrounds = 5, objective = "binary:logistic")
+prediction = predict(bstDense, test)
+prediction
+
+
+#submission = cbind(id = test_ids, target = pred[,2])
+submission = cbind(id = test_ids, target = prediction)
 write.table(submission, file="submission.csv", row.names = FALSE, col.names = TRUE, sep=",")
+
 
