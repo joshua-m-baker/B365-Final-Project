@@ -1,6 +1,7 @@
 #install.packages('mice')
 #library('mice')
 #setwd('C:\\Users\\Joshua\\Documents\\GitHub\\B365-Final-Project')
+library("caret")
 options(scipen = 50)
 # install.packages("Amelia")
 # library("Amelia")
@@ -50,7 +51,12 @@ pred = predict(model, test,"raw")
 pred
 pred[,2]
 
+m = train(training,as.factor(training_classes),'nb',trControl=trainControl(method='cv',number=10))
+p = predict(m$finalModel,test)
+pred2 = p$posterior
+pred2[,2]
+pred[,2]-pred2[,2]
+
 submission = cbind(id = test_ids, target = pred[,2])
 write.table(submission, file="submission.csv", row.names = FALSE, col.names = TRUE, sep=",")
-#model = train(training,training_classes,'nb',trControl=trainControl(method='cv',number=10))
 
