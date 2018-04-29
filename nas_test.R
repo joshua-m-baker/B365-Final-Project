@@ -1,6 +1,6 @@
 library("ggplot2")
 options(scipen=100)
-test <- read.csv("C:/Users/Greg/B365-Final-Project/test.csv", header = TRUE)
+test <- read.csv("test.csv", header = TRUE)
 str(test)
 ncol(test)
 t = test

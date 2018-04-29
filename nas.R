@@ -1,6 +1,6 @@
 library("ggplot2")
 options(scipen=100)
-train <- read.csv("C:/Users/Greg/B365-Final-Project/train.csv", header = TRUE)
+train <- read.csv("train.csv", header = TRUE)
 str(train)
 ncol(train)
 t = train

@@ -1,6 +1,6 @@
 #install.packages('mice')
 #library('mice')
-#setwd('C:\\Users\\Joshua\\Documents\\GitHub\\B365-Final-Project')
+setwd('C:\\Users\\Joshua\\Documents\\GitHub\\B365-Final-Project')
 library("caret")
 options(scipen = 50)
 # install.packages("Amelia")
@@ -44,9 +44,8 @@ pred2[,2]
 
 #install.packages("xgboost")
 library('xgboost')
-head(training)
-bstDense <- xgboost(data = as.matrix(training), label = training_classes, missing = NA, max_depth = 5, eta = 1, nthread = 2, nrounds = 10, objective = "binary:logistic")
-prediction = predict(bstDense, test)
+bstDense <- xgboost(data = as.matrix(data.train), subsample =.5,eta = .05, label = training_classes, max_depth = 14, nthread = 2, nrounds = 10, objective = "binary:logistic")
+prediction = predict(bstDense, datat.test)
 prediction
 
 
