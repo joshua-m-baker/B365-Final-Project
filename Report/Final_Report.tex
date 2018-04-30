@@ -110,17 +110,11 @@ Postfix descriptors describes the features data type.\\
 - Cat: Categorical *Note: the dataset has the categorical data already convert into factors and then integers\\
 - All other variables are either integer or numeric\\
 As stated the Data Types are numeric and integer, with integer being the predominant type 49 to 10.\\
+There is an ID feature which is an anonymous identification number.  \\
 Missing values are represented by -1.\\
 In total, there are 13 variables with missing values.\\
-There is Target feature which denotes the binary classification for that observation. This feature is the feature we are trying to learn/predict for the test data.\\
-There is an ID feature which is an anonymized identities of insured drivers.  \\
-
-Porto Seguro’s Safe Driver Prediction has 59 variables and 1.3 million observations, which qualifies as a good candidate for reducing overall dimensions of the data to significantly increase the speed of analysis techniques at the cost of more upfront data processing.
-
-
-There are only 21694 cases of classification 1, which is 3.64 percent of the observations in the training data set, showing significant skew in the expected class towards a ``0'' prediction.
-
-
+There is a Target feature which denotes the binary classification for that observation. This is the feature we are trying to predict for the test data.\\
+There are 21694 cases of classification ``1'', which is only 3.64\% of the observations in the training data set, showing significant skew in the expected class towards a ``0'' prediction.\\
 \bigskip
 \bigskip
 
@@ -128,14 +122,14 @@ There are only 21694 cases of classification 1, which is 3.64 percent of the obs
 %	Data Preprocessing $\&$ Exploratory Data Analysis
 %----------------------------------------------------------------------------------------
 
-\section{Data Preprocessing $\&$ Exploratory Data Analysis} % The \section*{} command stops section numbering
+\section{Data Pre- processing $\&$ Exploratory Data Analysis} % The \section*{} command stops section numbering
 
 \subsection{Feature Engineering}
-Originally, we attempted to feature engineer a new variable of the count of missing values for each entry, but was later decided to be removed as we improved missing value handling to a point where keeping track of countsr of missing values was uneccessary.
+Originally, we attempted to feature engineer a new variable of the count of missing values for each entry, but was later decided to be removed as we improved missing value handling to a point where keeping track of count of missing values was unnecessary, and the engineered column was not helpful for predictions.
 \subsection{Handling Missing Values}
 \textbf{Overview of features with missing entries}\\
-An important aspect of data preprocessing is handling missing data. In total, there are 13 features that have at least 1 missing value. For both the training ($Table 1.$) and testing ($Table 2.$) data the individual features are broken down into: number of missing entries, and percentage of total entries that are missing. As the tables show, both training and training have extremely close value for all the features. The next step is comparing the distribution of features with missing entries between training and testing.\\  
-Taking a look at the graphs located in the $Appendix$ we see that all the features have incredible close distribution between Training and Testing, for the exception of $ps-car-12$. However, this feature has 1 missing entry in Training and 0 in Testing. Therefore, the difference in this feature should be ignored. The importance of both distribution and number of missing entries being extremely close is that the methodology developed to handle NA's in Training is applicable for Testing. \\
+An important aspect of data preprocessing is handling missing data. In total, there are 13 features that have at least 1 missing value. For both the training ($Table 1.$) and testing ($Table 2.$) data the individual features are broken down into: number of missing entries and percentage of total entries that are missing. As the tables show, both Training and Test have extremely close values for all the features. The next step is comparing the distribution of features with missing entries between training and testing.\\  
+Taking a look at the graphs located in the $Appendix$ we see that all the features have incredibly close distribution between Training and Test, with the exception of $ps-car-12$. However, this feature has 1 missing entry in Training and 0 in Testing. Therefore, the difference in this feature should be ignored. The importance of both distribution and number of missing entries being extremely close is that the methodology developed to handle NA's in Training is applicable for Testing. \\
 \\
 
 
@@ -194,13 +188,13 @@ $ps-car-14$ & 63805 & 7.15\\ [1ex] % [1ex] adds vertical space
 The features with missing entries are a mixture of categorical with binary or several factors, and then continuous values between 0 and 1. This mixture requires a different approach for each feature.\\\\
 \textit{Features with high percentage of missing values:}\\
 \\
-Two main features stick out: $ps-car-03-cat$ and $ps-car-05-cat$ . With 69\% and 44.8\% missing entries respectively. Both features are binary categorical variables describing the car that's being insured. Given the fact this is a binary variable that describes the car and that there's an overwhelming percentage of missing values we thought it might be best to delete these features. As a quick check before we remove them, we examine the percentage of missing values with the target value of 1 vs the number of total claims (target value = 1). Surprisingly, $ps-car-03-cat$ feature with 69.1\% of it's entries missing with the target 1 accounts for 62\% of the total claims! Same goes for $ps-car-05-cat$  feature with 44.8\% of it's entries missing with the target 1 accounts for 39\% of the total claims! Here it seems that the value missing can be an important feature in predicting claims. Therefore, we replace -1 with 2 and set NA's to their own category. Changing the binary value to an ordinal to preserve the no response characteristic of our data. $Note:$ 2 was decided vs -1 to remove the negative value
+Two main features stick out: $ps-car-03-cat$ and $ps-car-05-cat$, with 69\% and 44.8\% missing entries respectively. Both features are binary categorical variables describing the car that's being insured. Given the fact this is a binary variable that describes the car and that there's an overwhelming percentage of missing values we thought it might be best to delete these features. As a quick check before we remove them, we examine the percentage of missing values with the target value of 1 vs the number of total claims (target value = 1). Surprisingly, $ps-car-03-cat$ feature with 69.1\% of it's entries missing with the target 1 accounts for 62\% of the total claims! Same goes for $ps-car-05-cat$  feature with 44.8\% of it's entries missing with the target 1 accounts for 39\% of the total claims! Here it seems that the value missing can be an important feature in predicting claims. Therefore, we replace -1 with 2 and set NA's to their own category. Changing the binary value to an ordinal to preserve the no response characteristic of our data. $Note:$ 2 was decided vs -1 to remove the negative value
 \textit{Other Categorical Features with low percentage of missing values:}\\
 \\
-All of these features are categorical, with low \% of missing entries \(< 2\%\) and mainly very low \% missing entry claim vs total claim. Therefore, we can treat these features as discrete random variables. Which allows us to replace these missing values from a probability density function model after the non-missing entries in each feature. The important goal here is to not alter the distribution of the non-missing values. \\
+All of these features are categorical, with low \% of missing entries \(< 2\%\) and mainly very low \% missing entry claim vs total claim. Therefore, we can treat these features as discrete random variables, which allows us to replace these missing values from a probability density function model after the non-missing entries in each feature. The important goal here is to not alter the distribution of the non-missing values. \\
 \\
 \textbf{Example:} ps-ind-05-cat\\
-Below is an example of the effects of using a PDF based on the probabilities of the non-missing entries to draw replacement values.
+Below is an example of the effects of using a PDF based approach on the probabilities of the non-missing entries to draw replacement values.
 \newpage
 This is the histogram of the values for ps-ind-05-cat, clearly there are a few -1 values. It also shows the general distribution of the other categorical values for this feature.\\ 
 \includegraphics[width=8cm, height=10cm]{ex_before} \\
@@ -249,14 +243,14 @@ Note: To perform this transformation correctly, the test and train data must be 
 
 
 \subsection{Naive Bayes}
-Once the data was processed, we used the Naive Bayes algorithm to form our model. We tested it with both the implementation from the e1071 package and the caret package. The caret package implementation ended up being more powerful since it allowed for easy cross validation. 
+Once the data was processed, we used the Naive Bayes algorithm to form our model. We tested it with both the implementation from the e1071 package and the caret package. The caret package implementation ended up being more powerful since it allowed for easy cross validation. We chose to do 10-fold cross validation, since that is a common number. By testing our data over a number of subsets, we were able to predict how well our model would perform on the test data. Our model ended up performing with over 97\% accuracy over the training set.
 
 Our analysis with the Naive Bayes algorithm uses the m-estimate smoothing technique to avoid conditional probabilities of 0, however none of the conditional probabilities found were 0, so this added layer of protection was not necessary in this case, likely due to the very large data size. The formula for Naive Bayes is as follows:
 \begin{equation}
 \label{eq:bayes}
 P(\theta|\textbf{D}) = P(\theta ) \frac{P(\textbf{D} |\theta)}{P(\textbf{D})}
 \end{equation}
-The algorithm gives the probability of an outcome based on a set of conditions from each condition’s probability of individually implying the outcome.
+The algorithm gives the probability of an outcome based on a set of conditions from each condition’s probability of individually implying the outcome. 
 
 \subsection{Gradient Boosting}
 We wanted to test a second classifier, so we chose gradient boosting, since it had been used successfully by a number of people previously. The algorithm tries to minimize a loss function with gradient descent, using progressively smaller learning rates. In order to do this it uses multiple decision trees trained on the data set, each with a different weight that can be updated in the gradient descent step. By using multiple decision trees, the chance of over- fitting to the training data is reduced significantly. By sequentially updating them with gradient descent, the trees further learn from the mistakes of previous trees, so this helps further increase accuracy. 
