@@ -60,14 +60,14 @@
 \affiliation{\textsuperscript{1}\textit{Computer Science, School of Informatics , Computing and Engineering, Indiana University, Bloomington, IN, USA}} % Author affiliation
 
 
-\Keywords{Keyword1 --- Synergy --- Keyword3} % Keywords - if you don't want any simply remove all the text between the curly brackets
+\Keywords{Data Processing --- Naive Bayes --- Gradient Boosing --- Cross Validation --- PCA} % Keywords - if you don't want any simply remove all the text between the curly brackets
 \newcommand{\keywordname}{Keywords} % Defines the keywords heading name
 
 %----------------------------------------------------------------------------------------
 %	ABSTRACT
 %----------------------------------------------------------------------------------------
 
-\Abstract{Include abstract here -- A summary of your work}
+\Abstract{Predicting driver insurance claim probability in upcoming year. Maintaining variable value distributions while replacing missing values in binary, continuous, and ordinal data. Dimensionality reduction using PCA and scaled variable to unit variances. Gradient boosting and Naive Bayes predictive model training.}
 
 %----------------------------------------------------------------------------------------
 
@@ -182,6 +182,7 @@ Our original, crude method of replacing missing values was done by using the mea
  % Summary and Conclusions
 %----------------------------------------------------------------------------------------
 \section{Summary and Conclusions}
+Overall, a Normalized Gini score of 0.21716 is not good enough to be a top score from Kaggle. The best predictions in the competition used nerual net techniques mixed with gradient boosting for their data analysis. Although the technique of xgboost was common in top finishers, it was often combined with other techniques to form better predictions than ours. Our techniques for replacing missing values is fairly robust, where new values very closely represent the distribution of their variable, however, there may have been correlation or other relationship-based techniques to replace data in a way that maintains relationships between variables that is not simply randomly replacing values while maintaining the distribution for the variable as this method would likely decrease any relationships between variables, which is not ideal.
 \bigskip
 \bigskip
 \bigskip
@@ -190,7 +191,13 @@ Our original, crude method of replacing missing values was done by using the mea
 
 \phantomsection
 \section*{Acknowledgments} % The \section*{} command stops section numbering
+\subsection{R packages}
 
+
+ggplot2\\
+caret\\
+e1071\\
+xgboost
 \addcontentsline{toc}{section}{Acknowledgments} % Adds this section to the table of contents
 
 
